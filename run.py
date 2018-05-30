@@ -5,4 +5,4 @@ if __name__ == '__main__':
         b.socks()
         b.login()
         b.data()
-        # b.poster()
+        b.poster()
