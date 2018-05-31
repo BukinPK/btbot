@@ -30,6 +30,6 @@ setup(
     author_email=get_meta('email'),
     url=get_meta('url'),
     packages=['icobot'],
-    install_requires=['python-twitter', 'google-api-python-client'],
-    scripts=['run.py']
+    install_requires=['python-twitter', 'google-api-python-client', 'pysocks',
+                      'requests'],
 )

@@ -3,8 +3,6 @@ import os
 from datetime import datetime, timedelta
 from .config import ExcelConfig
 
-basedir = os.path.abspath(os.path.dirname(__file__))+'/'
-
 
 class Excel(ExcelConfig):
 

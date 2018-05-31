@@ -4,7 +4,7 @@ from apiclient.discovery import build
 from httplib2 import Http
 from .config import TwitterConfig
 
-basedir = os.path.abspath(os.path.dirname(__file__))+'/'
+basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Twitter(TwitterConfig):
@@ -37,8 +37,8 @@ class Login:
         store = file.Storage(basedir+'credentials.json')
         creds = store.get()
         if not creds or creds.invalid:
-            flow = client.flow_from_clientsecrets(basedir+'client_id.json',
-                                                  SCOPES)
+            flow = client.flow_from_clientsecrets(
+                os.path.join(basedir, 'client_id.json'), SCOPES)
             creds = tools.run_flow(flow, store)
         self._api.excel = build('sheets', 'v4', http=creds.authorize(Http()))
 

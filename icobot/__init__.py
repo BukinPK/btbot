@@ -26,9 +26,7 @@ class SocksEnabeler(SocksConfig):
 
 class Bot:
 
-    __all__ = [
-        'api', 'login', 'data',
-        'poster', 'enable_socks']
+    __all__ = [ 'api', 'login', 'data', 'poster', 'enable_socks']
 
     socks = SocksEnabeler()
     api = Api()
