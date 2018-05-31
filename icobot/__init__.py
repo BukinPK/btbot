@@ -8,7 +8,11 @@ from .config import SocksConfig
 
 __all__ = ['Bot']
 __author__ = 'BukinPK'
+__email__ = 'bukinpk@gmail.com'
 __version__ = '0.1'
+__description__ = 'Bot for BOUNTY parser and register'
+__license__ = 'GPL'
+__url__ = 'https://github.com/BukinPK/icobot'
 
 
 class SocksEnabeler(SocksConfig):

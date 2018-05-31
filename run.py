@@ -1,3 +1,4 @@
+#!/bin/bash
 from icobot import Bot
 
 if __name__ == '__main__':

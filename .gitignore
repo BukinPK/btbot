@@ -1,4 +1,5 @@
 /FacebookBot/
+/build/
 /icobot/parser.py
 __pycache__/
 client_id.json
