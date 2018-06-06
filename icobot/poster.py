@@ -19,6 +19,26 @@ class Call:
         self.call_cycle()
 
     def _call_all(self):
+        today = datetime.today()
+        for line in self._data:
+            if self.name not in line['social']:
+                continue
+            social = line['social'][self.name]
+            if line['start'] and line['start'].date() > today.date():
+                print('[bounty even not start yet]', social['link'])
+                continue
+            if line['end'] and line['end'].date() <= today.date():
+                print('[expire date of bounty]', social['link'])
+                continue
+            social['week_start'] = line['week_start']
+            print('[try]', social['link'])
+            status = self._call(social)
+            del social['week_start']
+            if status:
+                print('[post & wait]', social['link'])
+                sleep(randint(40, 80))
+
+    def _call(self, social):
         print('[no backend for ', self.name, '] EXIT', sep='')
         sys.exit(1)
 
@@ -40,13 +60,20 @@ class Call:
 
 class Twitter(Call):
 
-    name = 'Twitter'
+    name = 'twitter'
     day_limit = 3
     hour_limit = 1
 
     def _call(self, social):
 
         week_posted = self.get_posts(social, 'my_wall', week=1)
+        ico_week_posts = self.get_posts(social, 'ico_wall', week=1)
+        if ico_week_posts is False:
+            print('[AAAAAAAAAAAAAAAAAaaaaaaaA!ugh!!!!!11au1!!!11!stopit!!!!!]',
+                  social['link'])
+            return False
+        week_can_post = self.cut_posted(ico_week_posts, week_posted)
+
         if social['limit'] and len(week_posted) >= social['limit']:
             return False
         week_posts_allow = social['limit'] - len(week_posted)
@@ -62,13 +89,6 @@ class Twitter(Call):
         if len(hour_posted) >= self.hour_limit:
             return False
         hour_posts_allow = self.hour_limit - len(hour_posted)
-
-        week_posts = self.get_posts(social, 'ico_wall', week=1)
-        if week_posts is False:
-            print('[AAAAAAAAAAAAAAAAAaaaaaaaA!ugh!!!!!11au1!!!11!stopit!!!!!]',
-                  social['link'])
-            return False
-        week_can_post = self.cut_posted(week_posts, week_posted)
 
         if week_can_post:
             for num in range(hour_posts_allow):
@@ -86,7 +106,7 @@ class Twitter(Call):
                             return False
                         finally:
                             week_can_post.reverse()
-                        return 'kek'
+                        return True
         return False
 
     def cut_posted(self, posts_given, posted):
@@ -96,9 +116,6 @@ class Twitter(Call):
                 for status in [
                         my_post.quoted_status, my_post.retweeted_status]:
                     if status and status.id == post.id:
-                        if not post.favorited:
-                            self._api.twitter.CreateFavorite(post)
-                            sleep(randint(1, 3))
                         continue
             return_posts.append(post)
         return return_posts
@@ -137,6 +154,10 @@ class Twitter(Call):
                             if status and status.user.screen_name == \
                                     social['username']:
                                 return_posts.append(post)
+                                if not posts_given and not post.favorited:
+                                    self._api.twitter.CreateFavorite(post)
+                                    print('[tw like]', social['link'])
+                                    sleep(randint(1, 3))
                     else:  # FOR TARGET
                         return_posts.append(post)
                 else:
@@ -145,36 +166,15 @@ class Twitter(Call):
                 return return_posts
             max_id = posts[-1].id-1
 
-    def _call_all(self):
-        # todo: перенести в кол
-        today = datetime.today()
-        for line in self._data:
-            if 'twitter' not in line['social']:
-                continue
-            social = line['social']['twitter']
-            if line['start'] and line['start'].date() > today.date():
-                print('[bounty even not start yet]', social['link'])
-                continue
-            if line['end'] and line['end'].date() <= today.date():
-                print('[expire date of bounty]', social['link'])
-                continue
-            social['week_start'] = line['week_start']
-            print('[try]', social['link'])
-            status = self._call(social)
-            del social['week_start']
-            if status:
-                print('[post & wait]', social['link'])
-                sleep(randint(40, 80))
-
 
 class Facebook(Call):
 
-    name = 'Facebook'
+    name = 'facebook'
 
 
 class Telegram(Call):
 
-    name = 'Telegram'
+    name = 'telegram'
 
 
 class Poster:

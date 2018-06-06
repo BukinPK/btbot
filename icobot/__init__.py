@@ -2,7 +2,6 @@ import socks
 import socket
 from .login import Login, Api
 from .poster import Poster
-# from .parser import Parser
 from .data import Data
 from .config import SocksConfig
 
