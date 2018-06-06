@@ -9,13 +9,13 @@ from .config import SocksConfig
 __all__ = ['Bot']
 __author__ = 'BukinPK'
 __email__ = 'bukinpk@gmail.com'
-__version__ = '0.1'
+__version__ = '0.2'
 __description__ = 'Bot for BOUNTY parser and register'
 __license__ = 'GPL'
 __url__ = 'https://github.com/BukinPK/icobot'
 
 
-class SocksEnabeler(SocksConfig):
+class ProxyEnabeler(SocksConfig):
 
     def __call__(self):
         if self.ENABLE:
@@ -26,14 +26,10 @@ class SocksEnabeler(SocksConfig):
 
 class Bot:
 
-    __all__ = [ 'api', 'login', 'data', 'poster', 'enable_socks']
+    __all__ = ['api', 'login', 'data', 'poster', 'proxy']
 
-    socks = SocksEnabeler()
+    proxy = ProxyEnabeler()
     api = Api()
-    login = Login(Api)
+    login = Login(api)
     data = Data(api)
     poster = Poster(data)
-    # parser = Parser(data)
-
-    def __init__(self):
-        pass
