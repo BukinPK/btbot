@@ -1,4 +1,4 @@
-from icobot import Bot
+from btbot import Bot
 
 if __name__ == '__main__':
         b = Bot()

@@ -8,6 +8,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 
 class Config:
+
     def __init__(self, api):
         self._api = api
 
@@ -34,7 +35,11 @@ class Facebook(Config, FacebookConfig):
 class Telegram(Config, TelegramConfig):
 
     def __call__(self):
-        self._api.telegram = None
+        from telethon import TelegramClient
+        from telethon.tl.functions.channels import JoinChannelRequest
+        self.client = TelegramClient
+        self.join = JoinChannelRequest
+        self._api.telegram = self
 
 
 class Login:

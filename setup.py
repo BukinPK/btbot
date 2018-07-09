@@ -20,6 +20,9 @@ def get_meta(meta):
         return meta_match.group(1)
     raise RuntimeError('Unable to find __{meta}__ string.'.format(meta=meta))
 
+if os.path.exists('requirements.txt'):
+    with open('requirements.txt') as f:
+        required = f.read().splitlines()
 
 setup(
     name='ICOBot',
@@ -29,7 +32,8 @@ setup(
     author=get_meta('author'),
     author_email=get_meta('email'),
     url=get_meta('url'),
-    packages=['icobot'],
-    install_requires=['python-twitter', 'google-api-python-client', 'pysocks',
-                      'requests'],
+    #packages=['icobot'],
+    #install_requires=['python-twitter', 'google-api-python-client', 'pysocks',
+    #                  'requests'],
+    install_requires=required
 )

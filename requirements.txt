@@ -1,0 +1,4 @@
+python-twitter
+google-api-python-client
+pysocks
+requests

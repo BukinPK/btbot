@@ -4,6 +4,7 @@ from .login import Login, Api
 from .poster import Poster
 from .data import Data
 from .config import SocksConfig
+from .reports import Reports
 
 __all__ = ['Bot']
 __author__ = 'BukinPK'
@@ -32,3 +33,4 @@ class Bot:
     login = Login(api)
     data = Data(api)
     poster = Poster(data)
+    reports = Reports(data)

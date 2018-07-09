@@ -1,4 +1,4 @@
-from icobot import Bot
+from btbot import Bot
 
 if __name__ == '__main__':
 
@@ -6,3 +6,4 @@ if __name__ == '__main__':
         b.proxy()
         b.login()
         b.data()
+        #b.reports.parse()
