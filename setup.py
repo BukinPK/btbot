@@ -25,7 +25,7 @@ if os.path.exists('requirements.txt'):
         required = f.read().splitlines()
 
 setup(
-    name='ICOBot',
+    name='btbot',
     version=get_meta('version'),
     license=get_meta('license'),
     description=get_meta('description'),
