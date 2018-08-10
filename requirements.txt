@@ -2,3 +2,6 @@ python-twitter
 google-api-python-client
 pysocks
 requests
+oauth2client
+telethon
+lxml

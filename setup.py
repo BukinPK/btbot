@@ -1,39 +1,40 @@
-import os
-import re
-import codecs
+import os, re, sys, shutil
 from setuptools import setup
 
 
-cwd = os.path.abspath(os.path.dirname(__file__))
+basedir = os.path.abspath(os.path.dirname(__file__))
+metapath = os.path.join(basedir, 'btbot', '__init__.py')
 
-def read(filename):
-    with codecs.open(os.path.join(cwd, filename), 'rb', 'utf-8') as h:
-        return h.read()
-
-metadata = read(os.path.join(cwd, 'icobot', '__init__.py'))
+with open(metapath, 'r', encoding='utf-8') as f:
+    metadata = f.read()
 
 def get_meta(meta):
     meta_match = re.search(
-        r"""^__{meta}__\s+=\s+['\"]([^'\"]*)['\"]""".format(meta=meta),
-       metadata, re.MULTILINE)
+        rf'^__{meta}__\s*=\s*[\'\"]([^\'\"]*)[\'\"]',
+        metadata, re.MULTILINE)
     if meta_match:
         return meta_match.group(1)
-    raise RuntimeError('Unable to find __{meta}__ string.'.format(meta=meta))
+    raise RuntimeError(f'Unable to find __{meta}__ string.')
 
-if os.path.exists('requirements.txt'):
-    with open('requirements.txt') as f:
+if os.path.exists(os.path.join(basedir, 'requirements.txt')):
+    with open(os.path.join(basedir, 'requirements.txt')) as f:
         required = f.read().splitlines()
+else:
+    required = None
 
-setup(
-    name='btbot',
-    version=get_meta('version'),
-    license=get_meta('license'),
-    description=get_meta('description'),
-    author=get_meta('author'),
-    author_email=get_meta('email'),
-    url=get_meta('url'),
-    #packages=['icobot'],
-    #install_requires=['python-twitter', 'google-api-python-client', 'pysocks',
-    #                  'requests'],
-    install_requires=required
-)
+if len(sys.argv) < 2:
+    sys.argv.append('install')
+setup(name='btbot',
+      version=get_meta('version'),
+      license=get_meta('license'),
+      description=get_meta('description'),
+      author=get_meta('author'),
+      author_email=get_meta('email'),
+      url=get_meta('url'),
+      packages=['btbot'],
+      install_requires=required)
+
+r = re.compile(r'.*\.egg-info$|^build$|^dist$')
+for dir in os.listdir():
+    if r.match(dir):
+        shutil.rmtree(dir, ignore_errors=True)
