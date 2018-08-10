@@ -138,7 +138,7 @@ class BountyBase:
                     return blank
             except (IndexError, ValueError, TypeError):
                 return blank
-        
+
         for raw in self.raw:
             bounty_params = {
                 'report_link': 1,
