@@ -15,7 +15,7 @@ class BountyBase:
 
     def __init__(self, api):
         self.api = api
-        arr = []
+        self.arr = []
 
     def __getitem__(self, key):
         return self.arr[key]
