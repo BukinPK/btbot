@@ -78,8 +78,8 @@ class BountyBase:
                     return True
                 else:
                     print('[end of the %s cycle] [wait %s]' % (
-                        social, bounty[social].wait))
-                    sleep(bounty[social].wait)
+                        social, Bounty.social_names[social].wait))
+                    sleep(Bounty.social_names[social].wait)
                     print('[new', social, 'cycle]')
 
     def stop(self, social=None):
