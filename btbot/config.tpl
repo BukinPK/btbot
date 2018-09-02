@@ -32,7 +32,7 @@ PASWD =
 # Следом идёт диапазон выборки для парсинга значений (вбит заранее).
 
 LIST_ID =
-LIST_RANGE = Лист1!A3:AB
+LIST_RANGE = List1!A3:Z
 
 [twitter]
 
