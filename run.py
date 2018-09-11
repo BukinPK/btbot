@@ -46,4 +46,3 @@ for a in api:
         b[-1].start()
     if args.report:
         b[-1].report()
-

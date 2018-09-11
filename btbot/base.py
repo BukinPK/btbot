@@ -2,6 +2,7 @@ import json
 import os
 from datetime import datetime, timedelta
 from multiprocessing import Process
+from threading import Thread
 from time import sleep
 from random import randint
 from .bounty import Bounty
@@ -29,7 +30,7 @@ class BountyBase:
     def report(self, cycle=True, background=True):
         if background:
             print('repors started')
-            self.report_thread = Process(target=self.report,
+            self.report_thread = Thread(target=self.report,
                                       kwargs={'background':False})
             self.report_thread.start()
         else:
@@ -55,7 +56,7 @@ class BountyBase:
         if not social:
             self.threads = dict()
             for key in Bounty.social_names.keys():
-                self.threads.update({key: Process(target=self.start,
+                self.threads.update({key: Thread(target=self.start,
                                                   kwargs={'social': key,
                                                           'cycle': cycle})})
                 self.threads[key].start()
