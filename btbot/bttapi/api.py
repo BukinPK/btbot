@@ -46,7 +46,7 @@ class Message:
 
     @property
     def text(self):
-        return self.post.xpath(self._text_xpath)[0].text
+        return [x for x in self.post.xpath(self._text_xpath)[0].itertext()]
 
     @property
     def board_name(self):

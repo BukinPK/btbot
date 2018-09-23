@@ -11,7 +11,7 @@ class Api:
 
     def __init__(self, conf=None):
         if isinstance(conf, str):
-            self.conf = self.get_config(conf)
+            self.get_config(conf)
         else:
             self.conf = conf
         self._api_names = {

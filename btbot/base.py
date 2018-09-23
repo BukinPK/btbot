@@ -131,10 +131,8 @@ class BountyBase:
 
         def get_field(num, inst=str, blank=None):
             try:
-                field = raw[num]
-                if field:
-                    field = inst(field) 
-                    return field
+                if raw[num]:
+                    return inst(raw[num]) 
                 else:
                     return blank
             except (IndexError, ValueError, TypeError):

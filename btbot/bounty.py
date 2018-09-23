@@ -339,7 +339,7 @@ class Bounty:
 
 
 def compute_last_week(week_day=None):
-    if week_day is None:
+    if week_day is None or week_day > 6:
         week_day = 0
     today_stamp = datetime.today().toordinal()
     i = 0
