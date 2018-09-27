@@ -119,7 +119,7 @@ class Api:
             for file in os.listdir(fullpath):
                 if os.path.isfile(os.path.join(fullpath, file)) and \
                         file.endswith('.conf'):
-                    conf.read(os.path.join(fullpath, file))
+                    conf.read(os.path.join(fullpath, file), encoding='utf-8')
                     api.append(cls(conf))
             if api:
                 return api
@@ -129,7 +129,7 @@ class Api:
                 return cls.fromconfig(path='main.conf', dir=dir)
 
         if os.path.isfile(fullpath):
-            conf.read(fullpath)
+            conf.read(fullpath, encoding='utf-8')
         else:
             if os.path.dirname(path):
                 return cls.fromconfig(path=os.path.basename(path),
@@ -144,7 +144,7 @@ class Api:
     def get_config(self, path):
         if os.path.isfile(path):
             conf = ConfigParser()
-            conf.read(path)
+            conf.read(path, encoding='utf-8')
             self.conf = conf
         else:
             return None

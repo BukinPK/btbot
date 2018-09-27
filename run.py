@@ -10,9 +10,10 @@ def exit(sig, frame):
     sys.exit(0)
 signal.signal(signal.SIGINT, exit)
 
+default_args = None
 if len(sys.argv) < 2:
     print('starts with arguments: --report --social')
-    sys.argv.append('-rs')
+    default_args = ['-rs']
 
 parser = argparse.ArgumentParser(description='without args start with -rs')
 
@@ -23,7 +24,7 @@ parser.add_argument('-m', '--show-messages', action='store_true', dest='show_msg
                     help='show report messages')
 parser.add_argument('-d', '--debug', action='store_true',  help='debug for args')
 
-args = parser.parse_args()
+args = parser.parse_args(args=default_args)
 
 if args.path:
     api = Api(args.path)
