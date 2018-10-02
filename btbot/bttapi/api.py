@@ -67,6 +67,7 @@ class BttApi:
     _headers = {'User-Agent': ''.join(('Mozilla/5.0 (X11; Linux x86_64) Apple',
                                        'WebKit/537.36 (KHTML, like Gecko) Chr',
                                        'ome/67.0.3396.79 Safari/537.36'))}
+    _subject_reg = re.compile('value="(.*)" tabindex="1"')
 
     def __init__(self, PHPSESSID=None, SMFCookie129=None, cfduid=None):
         self._cookies = dict(PHPSESSID=PHPSESSID, SMFCookie129=SMFCookie129,
@@ -109,6 +110,8 @@ class BttApi:
         payload['ns'] = 'NS'
         del payload['preview']
         del payload['post']
+        payload['subject'] = html.tostring(inputs['subject']).decode('utf-8')
+        payload['subject'] = self._subject_reg.findall(payload['subject'])[0]
         return payload
 
     def send_message(self, link:str, msg:str, sub=None) -> bool:
@@ -123,5 +126,6 @@ class BttApi:
         post_link = html.fromstring(post_page.text).xpath(
             post_xpath)[0].attrib['action']
         send_result = self.s.post(post_link, data=payload)
+        return True
         # сделать проверку send_result
         

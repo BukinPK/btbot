@@ -36,8 +36,7 @@ class BountyBase:
         else:
             while True:
                 for bounty in self.arr:
-                    if bounty.is_report_need:
-                        bounty.send_report()
+                    if bounty.is_report_need and bounty.send_report():
                         wait = randint(300, 600)
                         print(f'[sleep: {wait}] report: {bounty}')
                         sleep(wait)

@@ -206,6 +206,7 @@ class Bounty:
         }
     _date_formats = ('%d.%m.%Y', '%d/%m/%Y', '%Y-%m-%d')
     _id_reg = re.compile(r'topic=(\d+)')
+    report_hour = 10
 
     def __init__(self, api, report_link, week_start=None, start=None, end=None):
 
@@ -277,7 +278,7 @@ class Bounty:
             return False
         today = datetime.today()
         if today.weekday() == (self.week_start - timedelta(days=1)).weekday() \
-                and today.hour > 16:
+                and today.hour > self.report_hour:
             return True
         else:
             return False
@@ -291,14 +292,14 @@ class Bounty:
         while True:
             messages = self.api.btt.get_messages(postpage=i)
             for msg in messages:
-                if msg.date > datetime.combine(today.date(),
-                                               time(16)).astimezone():
+                if msg.date > datetime.combine(
+                        today.date(), time(self.report_hour)).astimezone():
                     if msg.topic_id == self.id:
                         return False
                     else:
                         continue
                 else:
-                    return True
+                    break
             return True  # вместо пагинации
             i += 1
 
@@ -314,8 +315,7 @@ class Bounty:
             social.start()
 
     def send_report(self) -> bool:
-        message = self.get_data()
-        return self.api.btt.send_message(self.report_link, message)
+        return self.api.btt.send_message(self.report_link, self.get_data())
 
     def get_data(self, arr=False):
         data = []
